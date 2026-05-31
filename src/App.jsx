@@ -3,6 +3,9 @@ import './index.css';
 import C from './content.js';
 import Icons from './icons.jsx';
 
+// ---- Asset URL helper (prepends Vite base, e.g. /BreathWork/) ----
+const asset = (p) => import.meta.env.BASE_URL + String(p).replace(/^\//, '');
+
 // ---- Lightbox Context ----
 const LightboxCtx = createContext(null);
 
@@ -82,7 +85,7 @@ function Nav() {
     <header className={`nav${scrolled ? ' scrolled' : ''}`}>
       <div className="wrap nav-inner">
         <a href="#top" className="nav-brand">
-          <img src="/logo.jpeg" alt="Breathwork" />
+          <img src={asset('/logo.jpeg')} alt="Breathwork" />
           <span>Breathwork</span>
         </a>
         <nav className="nav-links">
@@ -118,7 +121,7 @@ function Hero() {
     <section className="hero" id="top">
       <div className="wrap hero-grid">
         <div className="hero-copy">
-          <div className="hero-mark"><img src="/logo.jpeg" alt="Breathwork" /></div>
+          <div className="hero-mark"><img src={asset('/logo.jpeg')} alt="Breathwork" /></div>
           <h1>מרחב <span className="accent">לנשום</span></h1>
           <p className="hero-sub">{C.hero.sub}</p>
           <div className="hero-tags">
@@ -135,7 +138,7 @@ function Hero() {
         </div>
         <Reveal className="hero-media" delay={120}>
           <div className="hero-photo">
-            <img src="/space.jpeg" alt="המרחב לסדנת הנשימה" />
+            <img src={asset('/space.jpeg')} alt="המרחב לסדנת הנשימה" />
           </div>
           <div className="hero-badge">
             <span className="dot"><Icons.Music /></span>
@@ -163,16 +166,16 @@ function About() {
           <p>{C.about.body}</p>
         </Reveal>
         <Reveal className="about-media" delay={120}>
-          <div className="ph tall zoomable" onClick={() => zoom('/group-session.jpeg', 'קבוצה בסדנת נשימה')}>
-            <img src="/group-session.jpeg" alt="קבוצה בסדנת נשימה" />
+          <div className="ph tall zoomable" onClick={() => zoom(asset('/group-session.jpeg'), 'קבוצה בסדנת נשימה')}>
+            <img src={asset('/group-session.jpeg')} alt="קבוצה בסדנת נשימה" />
             <ZoomHint />
           </div>
-          <div className="ph wide zoomable" onClick={() => zoom('/nadav-boat.jpeg', 'נדב')}>
-            <img src="/nadav-boat.jpeg" alt="נדב" />
+          <div className="ph wide zoomable" onClick={() => zoom(asset('/nadav-boat.jpeg'), 'נדב')}>
+            <img src={asset('/nadav-boat.jpeg')} alt="נדב" />
             <ZoomHint />
           </div>
-          <div className="ph wide zoomable" onClick={() => zoom('/banner.jpeg', 'Breathwork session')}>
-            <img src="/banner.jpeg" alt="Breathwork session" style={{ objectPosition: 'top' }} />
+          <div className="ph wide zoomable" onClick={() => zoom(asset('/banner.jpeg'), 'Breathwork session')}>
+            <img src={asset('/banner.jpeg')} alt="Breathwork session" style={{ objectPosition: 'top' }} />
             <ZoomHint label="הפלייר המלא" />
           </div>
         </Reveal>
@@ -221,14 +224,14 @@ function Space() {
           <p className="lead" style={{ marginTop: 14 }}>{C.space.sub}</p>
         </Reveal>
         <Reveal className="space-grid">
-          <div className="cell big zoomable" onClick={() => zoom('/space.jpeg', 'המרחב')}>
-            <img src="/space.jpeg" alt="המרחב" /><ZoomHint />
+          <div className="cell big zoomable" onClick={() => zoom(asset('/space.jpeg'), 'המרחב')}>
+            <img src={asset('/space.jpeg')} alt="המרחב" /><ZoomHint />
           </div>
-          <div className="cell zoomable" onClick={() => zoom('/group-session.jpeg', 'סדנה קבוצתית')}>
-            <img src="/group-session.jpeg" alt="סדנה קבוצתית" /><ZoomHint />
+          <div className="cell zoomable" onClick={() => zoom(asset('/group-session.jpeg'), 'סדנה קבוצתית')}>
+            <img src={asset('/group-session.jpeg')} alt="סדנה קבוצתית" /><ZoomHint />
           </div>
-          <div className="cell zoomable" onClick={() => zoom('/nadav-portrait.jpeg', 'נדב שי')}>
-            <img src="/nadav-portrait.jpeg" alt="נדב שי" /><ZoomHint />
+          <div className="cell zoomable" onClick={() => zoom(asset('/nadav-portrait.jpeg'), 'נדב שי')}>
+            <img src={asset('/nadav-portrait.jpeg')} alt="נדב שי" /><ZoomHint />
           </div>
         </Reveal>
       </div>
@@ -242,7 +245,7 @@ function Session() {
     <section className="band band-cream" id="session">
       <div className="wrap session-grid">
         <Reveal>
-          <div className="session-portrait"><img src="/nadav-portrait.jpeg" alt="נדב שי" /></div>
+          <div className="session-portrait"><img src={asset('/nadav-portrait.jpeg')} alt="נדב שי" /></div>
           <div className="session-name">
             <b>{C.session.name}</b>
             <span>{C.session.role}</span>
@@ -381,7 +384,7 @@ function Footer() {
       <div className="wrap">
         <div className="footer-brand">
           <b>לנשום עם נדב</b>
-          <img className="footer-logo" src="/logo.jpeg" alt="Breathwork" />
+          <img className="footer-logo" src={asset('/logo.jpeg')} alt="Breathwork" />
           <b style={{ direction: 'ltr' }}>Breathwork</b>
         </div>
         <div className="footer-links">
