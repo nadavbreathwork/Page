@@ -1,11 +1,11 @@
 // Prepend Vite base path (e.g. /BreathWork/) to a public asset path.
 const a = (p) => import.meta.env.BASE_URL + String(p).replace(/^\//, '');
 
-const day = "חמישי";
-const date = "28.5";
-const startingTime = "18:00"
-const endingTime = "20:00"
-const numberOfParticipants = "5";
+const day = 'חמישי';
+const date = '28.5';
+const startingTime = '18:00'
+const endingTime = '20:00'
+const numberOfParticipants = '5';
 
 const CONTENT = {
   brand: 'Breathwork',
@@ -61,11 +61,11 @@ const CONTENT = {
     role: 'מדריך נשימה · Breathwork instructor',
     note: 'אחרי תקופה ארוכה שבה הסדנאות היו בעיקר בתהליך של התהוות, אני מתרגש לפתוח באופן רשמי את סדנת הנשימה הראשונה במרחב החדש שלי🌿\n\nהסדנה תתקיים ביום חמישי ה28.5 בין 18:00-20:00\n\nבקבוצה קטנה ואינטימית עם מספר מקומות מוגבל.\nבשגרה שלנו רוב הזמן אנחנו עסוקים בלרוץ, לחשוב, לתפקד ולהחזיק הכל ביחד. אנחנו שוכחים לעצור, להרגיש ולנשום.\nהנשימה היא אחד הכלים הכי פשוטים ועוצמתיים שיש לנו, דרך לנקות עומס מנטלי, לשחרר רגשות תקועים, להרגיע את המערכת ולהתחבר לעצמנו.\n\nבמהלך הסדנה נעבור תהליך נשימה עמוק ומונחה בליווי מוזיקה ומרחב בטוח, בלי צורך בניסיון קודם.\n* מתאים גם למי שלא התנסה בעבודה עם נשימה או מדיטציה\n* קבוצה קטנה של עד 5 אנשים\n* הסדנה מתקיימת בשכונת ביצרון בתל אביב\n\nאם זה מסקרן אתכם מוזמנים לשלוח לי הודעה בפרטי ולקבל פרטים נוספים✨',
     meta: [
-      { icon: 'Calendar', text: date + ' , '+ day +' יום' },
-      { icon: 'Clock', text: endingTime + ' עד ' + startingTime },
-      { icon: 'Users', text: 'עד' + numOfParticipants+ ' משתתפים' },
-      { icon: 'Pin', text: 'ביצרון, תל אביב' },
-    ],
+        { icon: 'Calendar', text: `${date}, יום ${day}` },
+        { icon: 'Clock', text: `${startingTime} עד ${endingTime}` },
+        { icon: 'Users', text: `עד ${numOfParticipants} משתתפים` },
+        { icon: 'Pin', text: 'ביצרון, תל אביב' },
+      ],
   },
 
   testimonials: {
