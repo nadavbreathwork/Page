@@ -7,6 +7,19 @@ const startingTime = '18:00'
 const endingTime = '20:00'
 const numberOfParticipants = '5';
 
+
+/*
+format code :
+
+  const day = 'חמישי';
+  const date = '28.5';
+  const startingTime = '18:00'
+  const endingTime = '20:00'
+  const numberOfParticipants = '5';
+*/
+
+
+
 const CONTENT = {
   brand: 'Breathwork',
   brandSub: 'לנשום עם נדב',
