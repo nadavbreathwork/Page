@@ -63,7 +63,7 @@ const CONTENT = {
     meta: [
         { icon: 'Calendar', text: `${date}, יום ${day}` },
         { icon: 'Clock', text: `${startingTime} עד ${endingTime}` },
-        { icon: 'Users', text: `עד ${numOfParticipants} משתתפים` },
+        { icon: 'Users', text: `עד ${numberOfParticipants} משתתפים` },
         { icon: 'Pin', text: 'ביצרון, תל אביב' },
       ],
   },
