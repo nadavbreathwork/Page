@@ -272,10 +272,19 @@ function Session() {
 }
 
 // ---- Video Card ----
-function VideoCard({ src, poster, delay = 0 }) {
+function VideoCard({ src, poster, title, onOpen, delay = 0 }) {
   const ref = useRef(null);
   const [playing, setPlaying] = useState(false);
+  const showPreviewFrame = (event) => {
+    if (!onOpen) return;
+    const video = event.currentTarget;
+    if (video.duration > 0.1 && video.currentTime === 0) video.currentTime = 0.1;
+  };
   const play = () => {
+    if (onOpen) {
+      onOpen();
+      return;
+    }
     const v = ref.current;
     if (!v) return;
     document.querySelectorAll('.vid-card video').forEach((o) => { if (o !== v) o.pause(); });
@@ -290,11 +299,13 @@ function VideoCard({ src, poster, delay = 0 }) {
         poster={poster}
         playsInline
         controls={playing}
-        preload="none"
+        muted={Boolean(onOpen)}
+        preload={onOpen ? 'auto' : 'none'}
+        onLoadedData={showPreviewFrame}
         onPause={() => { if (ref.current && ref.current.ended) setPlaying(false); }}
       />
-      {!playing && (
-        <button className="vid-play" aria-label="הפעלת וידאו" onClick={play}>
+      {(!playing || onOpen) && (
+        <button className="vid-play" aria-label={title ? `הפעלת ${title}` : 'הפעלת וידאו'} onClick={play}>
           <span className="vid-play-dot"><Icons.Play /></span>
           <span className="vid-play-label">צפו בהמלצה</span>
         </button>
@@ -303,11 +314,51 @@ function VideoCard({ src, poster, delay = 0 }) {
   );
 }
 
+function VideoPlaylistModal({ videos, index, onClose, onSelect }) {
+  const video = videos[index];
+  useEffect(() => {
+    if (index === null) return undefined;
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowRight' && index > 0) onSelect(index - 1);
+      if (e.key === 'ArrowLeft' && index < videos.length - 1) onSelect(index + 1);
+    };
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [index, onClose, onSelect, videos.length]);
+
+  if (index === null) return null;
+  return (
+    <div className="video-modal" role="dialog" aria-modal="true" aria-label="המלצת וידאו" onClick={onClose}>
+      <div className="video-modal-panel" onClick={(e) => e.stopPropagation()}>
+        <button className="lightbox-close" aria-label="סגירה" onClick={onClose}><Icons.Close /></button>
+        <video key={video.src} src={video.src} controls autoPlay playsInline>
+          הדפדפן שלך אינו תומך בניגון וידאו.
+        </video>
+        <div className="video-modal-footer">
+          <span>{video.title}</span>
+          <div className="video-modal-nav">
+            <button type="button" onClick={() => onSelect(index - 1)} disabled={index === 0}>הקודם</button>
+            <span>{index + 1} / {videos.length}</span>
+            <button type="button" onClick={() => onSelect(index + 1)} disabled={index === videos.length - 1}>הבא</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ---- Testimonials ----
 function Testimonials() {
   const [, setLightbox] = useContext(LightboxCtx);
   const zoom = (src, alt) => setLightbox({ src, alt });
   const T = C.testimonials;
+  const playlist = T.videos.find((v) => Array.isArray(v.playlist))?.playlist ?? [];
+  const [selectedVideo, setSelectedVideo] = useState(null);
   return (
     <section className="band band-soft" id="recommend">
       <div className="wrap">
@@ -320,7 +371,14 @@ function Testimonials() {
         <h3 className="rec-subhead">{T.videosTitle}</h3>
         <div className="vid-grid">
           {T.videos.map((v, i) => (
-            <VideoCard key={v.src} src={v.src} poster={v.poster} delay={i * 80} />
+            <VideoCard
+              key={v.src}
+              src={v.src}
+              poster={v.poster}
+              title={v.title}
+              onOpen={v.playlist ? () => setSelectedVideo(0) : undefined}
+              delay={i * 80}
+            />
           ))}
         </div>
 
@@ -343,6 +401,7 @@ function Testimonials() {
           ))}
         </div>
       </div>
+      <VideoPlaylistModal videos={playlist} index={selectedVideo} onClose={() => setSelectedVideo(null)} onSelect={setSelectedVideo} />
     </section>
   );
 }

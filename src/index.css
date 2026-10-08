@@ -452,17 +452,24 @@ section { position: relative; }
 .rec-subhead-2 { margin-top: clamp(48px, 6vw, 72px); }
 
 .vid-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
   gap: 20px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x mandatory;
+  padding: 4px 4px 16px;
+  margin: -4px -4px -16px;
+  scrollbar-width: thin;
 }
 .vid-card {
   position: relative;
+  flex: 0 0 clamp(200px, 22vw, 250px);
   border-radius: var(--radius);
   overflow: hidden;
   aspect-ratio: 9 / 16;
   background: var(--teal-900);
   box-shadow: var(--shadow-md);
+  scroll-snap-align: start;
 }
 .vid-card video {
   width: 100%;
@@ -506,6 +513,62 @@ section { position: relative; }
   letter-spacing: 0.01em;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
 }
+
+.video-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  background: rgba(12, 36, 41, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 4vw, 48px);
+}
+.video-modal-panel {
+  position: relative;
+  width: min(100%, 460px);
+  max-height: 100%;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--teal-900);
+  box-shadow: 0 40px 100px -30px rgba(0, 0, 0, 0.75);
+}
+.video-modal-panel video {
+  display: block;
+  width: 100%;
+  max-height: min(76vh, 760px);
+  background: #000;
+}
+.video-modal-panel .lightbox-close { z-index: 1; }
+.video-modal-footer {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  font-weight: 700;
+}
+.video-modal-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+  font-variant-numeric: tabular-nums;
+}
+.video-modal-nav button {
+  border: 1px solid rgba(255,255,255,0.45);
+  border-radius: 999px;
+  padding: 7px 12px;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+.video-modal-nav button:hover:not(:disabled) { background: rgba(255,255,255,0.15); }
+.video-modal-nav button:disabled { cursor: default; opacity: 0.35; }
 
 .quote-grid {
   display: grid;
@@ -721,7 +784,7 @@ section { position: relative; }
   .space-grid .cell { aspect-ratio: 4/3; }
   .session-grid { grid-template-columns: 1fr; }
   .session-portrait { position: relative; top: 0; max-width: 360px; }
-  .vid-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .vid-grid { gap: 16px; }
 }
 
 @media (max-width: 560px) {
@@ -731,4 +794,7 @@ section { position: relative; }
   .space-grid .big { grid-column: span 2; }
   .space-grid .cell:not(.big) { aspect-ratio: 1; }
   .quote-grid { grid-template-columns: 1fr; }
+  .vid-card { flex-basis: min(72vw, 250px); }
+  .video-modal { padding: 12px; }
+  .video-modal-footer { align-items: flex-start; flex-direction: column; }
 }
